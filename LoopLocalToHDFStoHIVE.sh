@@ -8,6 +8,7 @@ done
 
 echo File write complete
 
-for fn in `hdfs dfs -ls </path> | awk '{print$NF}' | grep .txt$ | tr '\n' ' '`; do
+#Run spark script to create Hive tables
+for fn in `hdfs dfs -ls </dirpath> | awk '{print$NF}' | grep .txt$ | tr '\n' ' '`; do
 	spark2-submit </path.py> $fn 2</dev/null
 done 
