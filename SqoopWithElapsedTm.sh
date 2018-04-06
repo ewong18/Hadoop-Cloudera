@@ -1,11 +1,18 @@
+#This script uses Sqoop to sqoop data from an existing table
+#from sources like Oracle or Teradata into HDFS
+#Displays time elapsed for job in seconds
+
 STARTTIME=$(date +%s)
 
+#This would be hardcoded based on your source
 DB_Connect="<connection string>"
 DB_User="<database username>"
 DB_PW="<database pw>"
 HDFS_Path="<target dir>"
 Src_DB="<database name>"
 
+#All that would need to be changed here is the Object_NM and the Split_Field variables
+#as well as the delimiter, if necessary
 Object_NM="<table name>"
 Split_Field="<field name> "
 Object_Ref="$Src_DB.$Object_NM"
