@@ -1,4 +1,8 @@
+#I'm posting this mainly as example code
 #This does not seem to be the cleanest solution
+
+#Originally, this code was written to read messy, unstructured log files
+#line-by-line and distribute them into buckets based on specific error types
 
 import sys
 import time
@@ -6,27 +10,32 @@ import datetime
 from pyspark import SparkContext
 from pyspark.streaming import StreamingContext
 
-
+#Puts log into the "INFO" bucket labeled with a timestamp of when the log arrived
 def saveInfoRDD(rdd): 
     if rdd.count() > 0:
 	    rdd.saveAsTextFile("/path/INFO--"+datetime.datetime.now().strftime("%Y%m%d-%H.%M.%S.%f"))
-	
+
+#Puts log into the "DEBUG" bucket labeled with a timestamp of when the log arrived
 def saveDebugRDD(rdd): 
     if rdd.count() > 0:
 	    rdd.saveAsTextFile("/path/DEBUG--"+datetime.datetime.now().strftime("%Y%m%d-%H.%M.%S.%f"))    
 
+#Puts log into the "ERROR" bucket labeled with a timestamp of when the log arrived
 def saveErrorRDD(rdd): 
     if rdd.count() > 0:
 	    rdd.saveAsTextFile("/path/ERROR--"+datetime.datetime.now().strftime("%Y%m%d-%H.%M.%S.%f"))    
 
+#Puts log into the "MISC" bucket labeled with a timestamp of when the log arrived
 def saveMiscRDD(rdd): 
     if rdd.count() > 0:
 	    rdd.saveAsTextFile("/path/MISC--"+datetime.datetime.now().strftime("%Y%m%d-%H.%M.%S.%f"))
 
+#Puts log into the "SIP_FAULT" bucket labeled with a timestamp of when the log arrived
 def saveSipFaultRDD(rdd): 
     if rdd.count() > 0:
 	    rdd.saveAsTextFile("/path/SIP_FAULT--"+datetime.datetime.now().strftime("%Y%m%d-%H.%M.%S.%f"))
 
+#Puts log into the "WS_REJECT" bucket labeled with a timestamp of when the log arrived
 def saveWSRejectionRDD(rdd): 
     if rdd.count() > 0:
 	    rdd.saveAsTextFile("/path/WS_REJECT--"+datetime.datetime.now().strftime("%Y%m%d-%H.%M.%S.%f"))  
@@ -53,6 +62,7 @@ if __name__ == "__main__":
     # Create a DStream of log data from the server and port specified    
     logs = ssc.socketTextStream(hostname,port)
 
+    # Filter logs based on error type and run corresponding function to sort into buckets
     SipFaultDS = logs.filter(lambda line: ">SIP FAULT<" in line)
     SipFaultDS.foreachRDD(lambda t,r: saveSipFaultRDD(r))
 
