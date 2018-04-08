@@ -1,5 +1,6 @@
 #Generic script that takes raw, delimited file from local filesystem, 
 # puts it into HDFS, and runs Spark command to create Hive table
+
 #Demonstrates how to run command line prompt from within a Spark script
 
 import sys
@@ -35,7 +36,7 @@ if __name__ == "__main__":
 	tempFilePath = sourcePath.split('/')
 	filenameIDX = len(tempFilePath) -1
 	filename = tempFilePath[filenameIDX]
-	hdfsSource = '<hdfs path> + filename
+	hdfsSource = '<hdfs path>' + filename
 	
 	print ''
 	print 'Spark resource allocation...'
@@ -61,4 +62,3 @@ if __name__ == "__main__":
 
 	print ' '
 	print 'Complete'
-	print 'Records written: ', rwcnt
