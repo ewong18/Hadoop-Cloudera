@@ -1,3 +1,7 @@
+--Creates HIVE DDL format for table view using Teradata metadata from underlying table
+--Can be exported and copy/pasted into HIVE DDL 'select' command
+--Also takes into consideration the order of the columns in the view vs. the table
+
 select c2.columnid, c1.tablename, trim(c1.columnname)||' '||case when c1.columntype = 'CV' then 'varchar'||substr(c1.columnformat, 2,20)
 							when c1.columntype = 'CF' then 'char'||substr(c1.columnformat, 2,20)
 							when c1.columntype = 'I' then 'Integer'
