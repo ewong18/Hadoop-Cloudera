@@ -10,13 +10,15 @@ from pyspark.sql.functions import *
 #Able to take source date from file name
 #Appends data to existing table with source date
 
+#Function to check if table exists in Hive database
 def tableexists(tablename):
-	test = spark.sql("show tables from napstg like '"+ tablename+ "'")
+	test = spark.sql("show tables from <dbname> like '"+ tablename+ "'")
 	if test.count() == 0:
 		return False
 	else:
 		return True
 
+#Gets data's cycle ID based on filename
 def getMo_ID(sourcePath):
 	tmpLst1 = path.split('/')
 	filename = tmpLst1[(len(tmpLst1)-1)] #file_name_YYYYMMDD.txt
@@ -25,7 +27,8 @@ def getMo_ID(sourcePath):
 	tmpLst3 = cyc_ext.split('.')
 	MO_ID = tmpLst3[0] #YYYYMMDD
 	return int(MO_ID)
-	
+
+#Checks if there is a columns representing Month ID
 def hasMo_ID(schema):
 	hasID = False
 	for elem in schema:
@@ -37,7 +40,7 @@ def hasMo_ID(schema):
 
 if __name__ == "__main__":
 	if len(sys.argv) != 2:
-		print >> sys.stderr, "Usage: CRX_ToHive.py <source path>"
+		print >> sys.stderr, "Usage: CRX_ToHive.py <HDFS source path>"
 		sys.exit(-1)
 		
 	path = sys.argv[1]
@@ -58,27 +61,28 @@ if __name__ == "__main__":
 	print 'Reading file...'
 	tempDF1 = spark.read.load(path, format="csv", sep="|", schema = headerSchema)
 	
-	#filter rows with record_type 'D'
+	#filter rows, keeping only those where column1 == 'D'
 	tempDF1.createOrReplaceTempView("table0")
 	tempDF2 = spark.sql("select * from table0 where column1 == 'D'")
 	
-	#drop column1 column
+	#drop "column1" column
 	df = tempDF2.drop("column1")
 	
+	#hardcode cycle id as MO_ID and add column to DataFrame
 	if not hasMo_ID(headerSchema):
 		df = df.withColumn("MO_ID", lit(getMo_ID(path)))
 
-	#spark.sql("drop table if exists database."+ tblname) //ONLY FOR TESTING
+	#spark.sql("drop table if exists dbname."+ tblname) //ONLY FOR TESTING
 	
 	print ''
 	print 'Converting table to Hive...'
 
 	if tableexists(tblname):
-		df.write.format("hive").insertInto("database." +tblname)
-		print 'Appended to existing Hive table: database.' + tblname
+		df.write.format("hive").insertInto("dbname." +tblname)
+		print 'Appended to existing Hive table: dbname.' + tblname
 	else:
-		df.write.format("hive").saveAsTable("database." +tblname)
-		print 'Created new Hive table: database.' + tblname
+		df.write.format("hive").saveAsTable("dbname." +tblname)
+		print 'Created new Hive table: dbname.' + tblname
 
 	print ''
 	print 'Complete'
