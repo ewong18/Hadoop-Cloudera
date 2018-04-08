@@ -4,6 +4,9 @@
 #Originally, this code was written to read messy, unstructured log files
 #line-by-line and distribute them into buckets based on specific error types
 
+#Use-case involved a log dump from different systems which resulted in 
+#logs with very inconsistent formatting
+
 import sys
 import time
 import datetime
