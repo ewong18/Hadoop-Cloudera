@@ -1,6 +1,6 @@
 NOTES TO SELF:
 
->>Linux CLI<<
+<b>Linux CLI</b>
 Show listing in HDFS directory with file sizes:
 hdfs dfs -du <path>
 
@@ -40,7 +40,7 @@ spark2-submit <path>
 Append all output to log
 &>>path/to/log.txt
 
->>Spark Shell<<
+<b>Spark Shell</b>
 Start Spark2:
 pyspark2
 
