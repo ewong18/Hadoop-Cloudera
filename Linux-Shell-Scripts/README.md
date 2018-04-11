@@ -2,49 +2,64 @@ NOTES TO SELF:
 
 <b>Linux CLI</b>
 
-Show listing in HDFS directory with file sizes:
+<i>Show listing in HDFS directory with file sizes:</i>
+
 hdfs dfs -du <path>
 
-deleting non-empty directory:
+<i>deleting non-empty directory:</i>
+
 hdfs dfs -rm -r -skipTrash <path>
 
-View content in hdfs file
+<i>View content in hdfs file:</i>
+
 hdfs dfs -cat  <path>
 
-Run shell script
+<i>Run shell script:</i>
+
 /bin/bash resetFolders.sh
 
-Create script in VIM
-vim filename
+<i>Create script in VIM:</i>
 
-Exit and save VIM
+vim <filename>
+
+<i>Exit and save VIM:</i>
+
 esc + ZZ (shift)
 
-Exit without save in VIM
+<i>Exit without save in VIM:</i>
+
 esc + :q!
 
-View processes
+<i>View processes:</i>
+
 ps
 
-Kill processes
+<i>Kill processes:</i>
+
 kill <processID>
 
-Kill processes (if kill doesn't work)
+<i>Kill processes (if kill doesn't work):</i>
+
 kill -9 <processID>
 
-View processes listening on port
+<i>View processes listening on port:</i>
+
 netstat -tulpn
 
-Run spark application
+<i>Run spark application:</i>
+
 spark2-submit <path>
 
-Append all output to log
+<i>Append all output to log:</i>
+
 &>>path/to/log.txt
 
 <b>Spark Shell</b>
 
-Start Spark2:
+<i>Start Spark2:</i>
+
 pyspark2
 
-Open .py script in pyspark2
+<i>Open .py script in pyspark2:</i>
+
 execfile('path')
