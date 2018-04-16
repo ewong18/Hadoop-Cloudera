@@ -42,6 +42,6 @@
 		join dbc.columnsv c2
 			on  c1.tablename = c2.tablename
 			and c1.columnname = c2.columnname
-		where c1.databasename = 'NACRMFBICOREDB'
-		and c2.databasename = 'NACRMFBISEMVW'
+		where c1.databasename = 'DATABASENM'
+		and c2.databasename = 'VIEWNM'
 	order by 2, 1 asc;
