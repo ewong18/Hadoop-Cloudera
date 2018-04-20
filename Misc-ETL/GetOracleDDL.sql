@@ -1,6 +1,7 @@
 --Creates select DDL for copy pasting into Hive and Impala DDL
 --Takes into consideration the timestamp conversion issues
 --Does not strip delimiters and newlines, as Sqoop command "--hive-drop-import-delims" should work
+--Uses Oracle data dictionary under SYS user
 
 select column_id, table_name,
         trim(column_name)||' '||case
