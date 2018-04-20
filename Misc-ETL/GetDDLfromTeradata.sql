@@ -3,7 +3,7 @@
 --Creates Teradata DDL format to be used to create new views while stripping new line characters and carriage returns
 --Can be exported and copy/pasted into HIVE DDL 'select' command
 --Also takes into consideration the order of the columns in the view vs. the table
---
+--Uses Teradata's data dictionary database DBC
 
  select c2.columnid, c1.tablename, 
 					case when c1.columntype in ('CV') then 'cast(oreplace(oreplace(oreplace('||trim(c1.columnname)
