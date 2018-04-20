@@ -1,6 +1,8 @@
 #This script uses Sqoop to sqoop data from an existing table
 #from sources like Oracle or Teradata into HDFS
 #Displays time elapsed for job in seconds
+#Oracle Connenction string: jdbc:oracle:thin:@<HostName>:<Port>/<ServiceName>
+#Teradata Connection String: jdbc:teradata://<DatabaseServerName>/DATABASE=<DBNAME><,CHARSET=UTF8>
 
 STARTTIME=$(date +%s)
 
