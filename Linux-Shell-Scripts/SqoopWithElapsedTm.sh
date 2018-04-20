@@ -22,4 +22,4 @@ sqoop import --$DB_Connect --username $DB_User -password $DB_PW --table $Object_
 
 ENDTIME=$(date +%s)
 DIFF=$(($ENDTIME - $STARTTIME))
-echo "Time elapsed (seconds): $DIFF"
+printf 'Time elapsed: %02dh:%02dm:%02ds\n' $(($DIFF/3600)) $(($DIFF%3600/60)) $(($DIFF%60))
