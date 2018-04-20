@@ -19,7 +19,7 @@ Object_NM="<table name>"
 Split_Field="<field name> "
 Object_Ref="$Src_DB.$Object_NM"
 Target_Dir="$HDFS_Path$Object_NM"
-sqoop import --$DB_Connect --username $DB_User -password $DB_PW --table $Object_Ref --fields-terminated-by "^" --null-non-string '\\N' --null-string '\\N' --delete-target-dir --target-dir $Target_Dir -m 1
+sqoop import --$DB_Connect --username $DB_User -password $DB_PW --table $Object_Ref --fields-terminated-by "^" --null-non-string '\\N' --null-string '\\N' --delete-target-dir --target-dir $Target_Dir -m 4
 
 
 ENDTIME=$(date +%s)
