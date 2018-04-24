@@ -1,3 +1,6 @@
+#Generic script that combines raw, delimited "part" HDFS directory files
+# and saves creates tables in Hive
+
 import sys
 import subprocess
 from pyspark.sql import SparkSession
