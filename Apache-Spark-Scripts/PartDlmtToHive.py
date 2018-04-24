@@ -1,5 +1,8 @@
-#Generic script that combines raw, delimited "part" HDFS directory files
+#Script that combines raw, delimited "part" HDFS directory files
 # and saves creates tables in Hive
+
+#Purpose is mainly to show how to combine and read the "part" directories
+#In practice, schema would also need to be defined 
 
 import sys
 import subprocess
@@ -10,7 +13,7 @@ from pyspark.sql.functions import *
 
 
 if __name__ == "__main__":
-	if len(sys.argv) != 6:
+	if len(sys.argv) != 4:
 		print >> sys.stderr, "Usage: dlmtToHive.py <HDFS source path> <database.desired table name> <delimiter> <infer schema? true/false> <has header? true/false>"
 		sys.exit(-1)
 		
@@ -19,8 +22,6 @@ if __name__ == "__main__":
 	path = sys.argv[1]
 	tblname = sys.argv[2]
 	delimiter = sys.argv[3]
-	schema = sys.argv[4]
-	hasHeader = sys.argv[5]
 
 	def run_cmd(args_list):
 		proc = subprocess.Popen(args_list, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -28,6 +29,12 @@ if __name__ == "__main__":
 		s_return =  proc.returncode
 		return s_return, s_output, s_err 
 
+	#Define schema
+	custom_Schema =  StructType([
+		StructField("column1", StringType(), True),
+		StructField("column2", IntegerType(), False)])
+		StructField("column3", DecimalType(18,2), True)])
+		
 	print ''
 	print 'Spark resource allocation...'
 
@@ -47,7 +54,7 @@ if __name__ == "__main__":
 	
 	print 'Reading ' + path + ' file...'
 	print " (Please wait...)"
-	df = spark.read.load((path +'/combined.txt'), format="csv", sep=delimiter, inferSchema = schema, header = hasHeader)
+	df = spark.read.load((path +'/combined.txt'), format="csv", sep=delimiter, schema=custom_schema)
 
 	print ''
 	print 'Dropping table if it exists...'
