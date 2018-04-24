@@ -11,7 +11,7 @@ from pyspark.sql.functions import *
 
 if __name__ == "__main__":
 	if len(sys.argv) != 6:
-		print >> sys.stderr, "Usage: dlmtToHive.py <source path> <database.desired table name> <delimiter> <infer schema? true/false> <has header? true/false>"
+		print >> sys.stderr, "Usage: dlmtToHive.py <HDFS source path> <database.desired table name> <delimiter> <infer schema? true/false> <has header? true/false>"
 		sys.exit(-1)
 		
 #NOTE: if the delimiter is "|", you will need to enter the argument as $"|"; if it is a \t, you will neet to enter the argument $"\t"
@@ -27,7 +27,6 @@ if __name__ == "__main__":
 		s_output, s_err = proc.communicate()
 		s_return =  proc.returncode
 		return s_return, s_output, s_err 
-
 
 	print ''
 	print 'Spark resource allocation...'
