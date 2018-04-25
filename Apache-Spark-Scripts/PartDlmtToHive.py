@@ -43,14 +43,17 @@ if __name__ == "__main__":
 	
 	try:
 		print 'Removing old output file if exists...'
-		(ret,out,err) = run_cmd(['hdfs', 'dfs', '-rm', '-r', '-skipTrash', (path + '/combined.txt')])
+		(ret,out,err) = run_cmd(['hdfs', 'dfs', '-rm', '-r', '-skipTrash', (path + '/Combined')])
 		print '   Deleted old output file.'
 	except:
 		print '   Old output file did not exist.'
 
 	print ''
 	print 'Combining file parts and saving as new output file...'
-	spark.sparkContext.textFile(path + '/part*').coalesce(1).saveAsTextFile(path +'/combined.txt')
+	spark.sparkContext.textFile(path + '/part*').coalesce(1).saveAsTextFile(path +'/Combined')
+	
+	#Optional: Remove old part files to save space
+	#(ret,out,err) = run_cmd(['hdfs', 'dfs', '-rm', '-r', '-skipTrash', (path + '/part*')])
 	
 	print 'Reading ' + path + ' file...'
 	print " (Please wait...)"
